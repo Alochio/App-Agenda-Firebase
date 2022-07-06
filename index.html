@@ -12,7 +12,7 @@
                 display: none;
             }
         </style>
-        <form>
+        <form class="login-form">
             <input type="email" , name="email" /><br>
             <input type="password" , name="password" /><br>
             <input type="submit" , name="acao" , value="Logar" />
@@ -21,7 +21,13 @@
 
     <div class="container-login">
         <h2>Você está logado!!</h2>
-        <input type="submit", name="logout", value="Logout", class="logout",  href="javascript:void(0);">
+        <form class="form-cadastro-tarefa">
+            <textarea name="tarefa"></textarea><br>
+            <input type="datetime-local" name="datetime" /><br>
+            <input type="submit" name="acao" value="Cadastrar tarefa">
+
+            <input type="submit" , name="logout" , value="Logout" , class="logout" , href="javascript:void(0);">
+        </form>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-app.js"></script>
@@ -41,10 +47,9 @@
         };
         firebase.initializeApp(firebaseConfig);
 
-
         var usuario = null;
 
-        var formLogin = document.querySelector('form');
+        var formLogin = document.querySelector('form.login-form');
         var btnLogout = document.querySelector('.logout');
 
         formLogin.addEventListener('submit', (e) => {
@@ -55,9 +60,10 @@
             firebase.auth().signInWithEmailAndPassword(email, password)
                 .then((userCredential) => {
                     usuario = userCredential.user;
+                    //alert('Logado com sucesso! \n' + usuario.email);
+
                     document.querySelector('.login').style.display = "none";
                     document.querySelector('.container-login').style.display = "block";
-                    alert('Logado com sucesso! \n' + usuario.email);
                     document.querySelector('.logout').style.display = "block";
                 })
                 .catch((error) => {
@@ -74,12 +80,49 @@
                 usuario = null;
                 document.querySelector('.container-login').style.display = "none";
                 document.querySelector('.login').style.display = "block";
+                document.querySelector('.logout').style.display = "block";
 
                 formLogin.reset();
 
             }).catch((error) => {
             });
         })
+
+        firebase.auth().onAuthStateChanged((val) => {
+            if (val) {
+                usuario = val.email;
+                //alert('Bem vindo de volta ' + usuario);
+            }
+        })
+
+        var formCadastro = document.querySelector('.form-cadastro-tarefa');
+
+        const db = firebase.firestore();
+
+        formCadastro.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            let tarefa = document.querySelector('.form-cadastro-tarefa [name=tarefa]').value;
+            let dateTime = document.querySelector('.form-cadastro-tarefa [name=datetime]').value;
+
+            let dataAtual = new Date().getTime();
+            if (dataAtual > new Date(dateTime).getTime()) {
+                alert('Você inseriu uma data do passado...');
+            }
+            else if(tarefa == "" || horario == ""){
+                alert('Você não pode deixar campos vazios...');
+            }
+            else {
+                //INSERIR E CRIAR COLEÇÃO, CASO NÃO EXISTA
+                db.collection('tarefas').add({
+                    tarefa: tarefa,
+                    horario: dateTime
+                })
+                formCadastro.reset();
+                alert('Sua tarefa foi cadastrada com sucesso!!');
+            }
+        })
+
     </script>
 </body>
 
