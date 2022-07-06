@@ -1,0 +1,86 @@
+<html>
+
+<head>
+    <title>App Agenda</title>
+</head>
+
+<body>
+    <div class="login">
+        <h2>Faça o login no App</h2>
+        <style>
+            .container-login {
+                display: none;
+            }
+        </style>
+        <form>
+            <input type="email" , name="email" /><br>
+            <input type="password" , name="password" /><br>
+            <input type="submit" , name="acao" , value="Logar" />
+        </form>
+    </div>
+
+    <div class="container-login">
+        <h2>Você está logado!!</h2>
+        <input type="submit", name="logout", value="Logout", class="logout",  href="javascript:void(0);">
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.0/firebase-firestore.js"></script>
+
+    <script type="module">
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAgw964S_vGmRqEtFrMHSV542ZH_Y2JTkI",
+            authDomain: "app-agenda-v-alochio.firebaseapp.com",
+            projectId: "app-agenda-v-alochio",
+            storageBucket: "app-agenda-v-alochio.appspot.com",
+            messagingSenderId: "121339544022",
+            appId: "1:121339544022:web:7441925a3c8493620da477",
+            measurementId: "G-N55EL7RHZM"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+
+        var usuario = null;
+
+        var formLogin = document.querySelector('form');
+        var btnLogout = document.querySelector('.logout');
+
+        formLogin.addEventListener('submit', (e) => {
+            e.preventDefault();
+            let email = document.querySelector('[name=email]').value;
+            let password = document.querySelector('[name=password]').value;
+
+            firebase.auth().signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    usuario = userCredential.user;
+                    document.querySelector('.login').style.display = "none";
+                    document.querySelector('.container-login').style.display = "block";
+                    alert('Logado com sucesso! \n' + usuario.email);
+                    document.querySelector('.logout').style.display = "block";
+                })
+                .catch((error) => {
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    alert(errorMessage);
+                });
+        })
+
+        btnLogout.addEventListener('click', (e) => {
+            e.preventDefault();
+            firebase.auth().signOut().then(() => {
+                alert('Deslogado');
+                usuario = null;
+                document.querySelector('.container-login').style.display = "none";
+                document.querySelector('.login').style.display = "block";
+
+                formLogin.reset();
+
+            }).catch((error) => {
+            });
+        })
+    </script>
+</body>
+
+</html>
