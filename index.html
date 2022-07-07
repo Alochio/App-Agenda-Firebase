@@ -28,6 +28,10 @@
 
             <input type="submit" , name="logout" , value="Logout" , class="logout" , href="javascript:void(0);">
         </form>
+        <div class="tarefas-usuario">
+            <h3>Listagem de tarefas atuais:</h3>
+            <ul id="tarefas" ></ul>
+        </div>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-app.js"></script>
@@ -60,7 +64,7 @@
             firebase.auth().signInWithEmailAndPassword(email, password)
                 .then((userCredential) => {
                     usuario = userCredential.user;
-                    //alert('Logado com sucesso! \n' + usuario.email);
+                    alert('Logado com sucesso! \n' + usuario.email);
 
                     document.querySelector('.login').style.display = "none";
                     document.querySelector('.container-login').style.display = "block";
@@ -88,16 +92,30 @@
             });
         })
 
+        const db = firebase.firestore();
+
         firebase.auth().onAuthStateChanged((val) => {
             if (val) {
-                usuario = val.email;
-                //alert('Bem vindo de volta ' + usuario);
+                usuario = val;
+                alert('Bem vindo de volta ' + usuario.email);
+
+                document.querySelector('.login').style.display = "none";
+                document.querySelector('.container-login').style.display = "block";
+
+                //OUVIR POR MUDANÇAS NO BANCO DE DADOS
+                db.collection('tarefas').where("userId", "==", usuario.uid ).onSnapshot((data) => {                    
+                    //console.log(data.docs);
+                    let list = document.querySelector('#tarefas');
+                    list.innerHTML = "";
+                    data.docs.map((val)=>{
+                        list.innerHTML+=`<li>${val.data().tarefa}</li>`
+
+                    })
+                })
             }
         })
 
         var formCadastro = document.querySelector('.form-cadastro-tarefa');
-
-        const db = firebase.firestore();
 
         formCadastro.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -109,14 +127,15 @@
             if (dataAtual > new Date(dateTime).getTime()) {
                 alert('Você inseriu uma data do passado...');
             }
-            else if(tarefa == "" || horario == ""){
+            else if (tarefa == "" || dateTime == "") {
                 alert('Você não pode deixar campos vazios...');
             }
             else {
                 //INSERIR E CRIAR COLEÇÃO, CASO NÃO EXISTA
                 db.collection('tarefas').add({
                     tarefa: tarefa,
-                    horario: dateTime
+                    horario: dateTime,
+                    userId: usuario.uid
                 })
                 formCadastro.reset();
                 alert('Sua tarefa foi cadastrada com sucesso!!');
