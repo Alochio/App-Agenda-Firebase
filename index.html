@@ -1,12 +1,11 @@
 <html>
 
 <head>
-    <title>App Agenda</title>
+    <title>YourNotes</title>
 </head>
 
 <body>
     <div class="login">
-        <h2>Faça o login no App</h2>
         <style>
             * {
                 margin: 0;
@@ -40,8 +39,21 @@
             }
 
             .login h2 {
-                font-size: 25px;
+                font-size: 50px;
                 padding-left: 10px;
+            }
+
+            .login h3 {
+                font-size: 15px;
+                padding-left: 10px;
+            }
+
+            .login-form input[type=submit] {
+                background-color: #e6f99d;
+                color: black;
+                font-size: 15px;
+                border: 0;
+                cursor: pointer;
             }
 
             .container-login {
@@ -105,6 +117,8 @@
                 color: red;
             }
         </style>
+        <h2>YourNotes</h2><br>
+        <h3>Faça o seu login: </h3>
         <form class="login-form">
             <br><input placeholder="Email" , type="email" , name="email" />
             <input placeholder="Senha" , type="password" , name="password" />
