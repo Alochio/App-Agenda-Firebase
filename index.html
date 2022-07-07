@@ -30,7 +30,7 @@
         </form>
         <div class="tarefas-usuario">
             <h3>Listagem de tarefas atuais:</h3>
-            <ul id="tarefas" ></ul>
+            <ul id="tarefas"></ul>
         </div>
     </div>
 
@@ -97,20 +97,38 @@
         firebase.auth().onAuthStateChanged((val) => {
             if (val) {
                 usuario = val;
-                alert('Bem vindo de volta ' + usuario.email);
+
+                alert('Bem vindo de volta ' + usuario.email + "\nNum ID: " + usuario.uid);
 
                 document.querySelector('.login').style.display = "none";
                 document.querySelector('.container-login').style.display = "block";
 
                 //OUVIR POR MUDANÇAS NO BANCO DE DADOS
-                db.collection('tarefas').where("userId", "==", usuario.uid ).onSnapshot((data) => {                    
-                    //console.log(data.docs);
+                db.collection('tarefas').where("userId", "==", usuario.uid).onSnapshot((data) => {
                     let list = document.querySelector('#tarefas');
                     list.innerHTML = "";
-                    data.docs.map((val)=>{
-                        list.innerHTML+=`<li>${val.data().tarefa}</li>`
+                    let tarefas = data.docs;
 
+                    tarefas = tarefas.sort(function (a, b) {
+                        if (a.data().horario < b.data().horario)
+                            return -1;
+                        else
+                            return +1;
                     })
+
+                    tarefas.map((val) => {
+                        list.innerHTML += `<li>${val.data().tarefa} <a tarefa-id="${val.id}" class="excluir-btn" href="javascript:void(0)">(Delete)</a></li>`
+                    })
+
+                    var excluirTarefas = document.querySelectorAll('.excluir-btn');
+
+                    excluirTarefas.forEach(element => {
+                        element.addEventListener('click', function (e) {
+                            e.preventDefault();
+                            let docId = element.getAttribute('tarefa-id');
+                            db.collection('tarefas').doc(docId).delete();
+                        })
+                    });
                 })
             }
         })
@@ -135,7 +153,7 @@
                 db.collection('tarefas').add({
                     tarefa: tarefa,
                     horario: dateTime,
-                    userId: usuario.uid
+                    userId: usuario.uid,
                 })
                 formCadastro.reset();
                 alert('Sua tarefa foi cadastrada com sucesso!!');
