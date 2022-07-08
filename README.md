@@ -11,19 +11,22 @@ O intuito desse app era melhorar minhas ablidades com as tecnologias citadas aci
 
 Link para acessar o app: (app ainda não publicado).
 
-#IMAGENS DO APP E TAMBÉM DO TESTE DE SEGURANÇA:
+# INTERFACE DO APP:
 
 <p align="center">
 	<img width="640" height="360" src="imagens-para-README/01.png">
-</p><br>
-<p align="center">
-	<img width="640" height="360" src="imagens-para-README/02.png">
 </p><br>
 <p align="center">
 	<img width="640" height="360" src="imagens-para-README/03.png">
 </p><br>
 <p align="center">
 	<img width="640" height="360" src="imagens-para-README/04.png">
+</p><br>
+
+# INFORMAÇÕES CONTIDAS NO FIRESTORE - BANCO DE DADOS DO FIREBASE
+
+<p align="center">
+	<img width="640" height="360" src="imagens-para-README/02.png">
 </p><br>
 <p align="center">
 	<img width="640" height="360" src="imagens-para-README/05.png">
@@ -33,6 +36,7 @@ Link para acessar o app: (app ainda não publicado).
 
 Para testar a segurança do app, pegamos o uid de um segundo usuário, e o inserimos no código fonte do programa, pelo próprio VS Code, o observando a tela e também o console do navegador, conseguimos observar que o usuário só consegue vizualizar e editar as informações contidas no banco caso esteja logado com o uid respectivo as tarefas.
 
+A imagem a baixo mostra as regras de segurança colocadas no app.
 <p align="center">
 	<img width="640" height="360" src="imagens-para-README/06.png">
 </p><br>
