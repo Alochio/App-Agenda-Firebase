@@ -5,5 +5,5 @@ Neste repositório, se encontra um app proposto pela Danki Code no curso de Fire
 O APP ainda está em desenvolvimento!!
 
 <p align="center">
-	<img width=100% height="300" src="imagens-para-README/01.png">
+	<img width="1280" height="720" src="imagens-para-README/01.png">
 </p>
