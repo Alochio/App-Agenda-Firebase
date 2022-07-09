@@ -1,6 +1,6 @@
 # YourNotes
 
-O YourNotes é um app de agenda, desenvolvido por mim, no acompanhamento do curso de Firebase da Danki Code.
+O YourNotes é um Web App de agenda, desenvolvido por mim, no acompanhamento do curso de Firebase da Danki Code.
 
 Para o desenvolvimento do app, utilizamos as seguintes tecnologias:<br>
     -HTML,<br>
