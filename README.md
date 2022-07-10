@@ -3,9 +3,11 @@
 O YourNotes é um Web App de agenda, desenvolvido por mim, no acompanhamento do curso de Firebase da Danki Code.
 
 Para o desenvolvimento do app, utilizamos as seguintes tecnologias:<br>
-    -HTML,<br>
-    -CSS,<br>
-    -JavaScript.<br>
+    
+  ![HTML](https://img.shields.io/badge/HTML-239120?style=for-the-badge&logo=html5&logoColor=white)
+  ![CSS](https://img.shields.io/badge/CSS-239120?&style=for-the-badge&logo=css3&logoColor=white)
+  ![JS](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+  
 
 O intuito desse app era melhorar minhas ablidades com as tecnologias citadas acima, e também o conhecimento dessa poderosa ferramente, o Firebase. Onde o banco de dados e as regras de seguranças foram desenvolvidas no mesmo.
 
